@@ -12,9 +12,9 @@
 {
 
 }
-@property(nonatomic,strong)NSString *strTitle;
 
--(void)getConnection:(void (^)(NSMutableArray * responseObj))completionBlock;
-- (void)getImge:(NSString *)strUrl withData:(void (^)(id responseData))completionBlock;
+
+-(void)getNetworkConnection:(void (^)(NSMutableArray * responseObj))completionBlock;
+-(void)getRowImge:(NSString *)strUrl withData:(void (^)(id responseData))completionBlock;
 
 @end

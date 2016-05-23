@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #import "InfoObject.h"
-#import "Content.h"
 #import "TableDataTableViewCell.h"
 
 #define loadingFont [UIFont fontWithName:@"HelveticaNeue-Thin" size:22.0]
@@ -45,10 +44,11 @@
     [lblLoadeing setText:@"Loading ..... "];
     lblLoadeing.font= loadingFont;
     
-    Content *content=[[Content alloc] init];
-    [content getConnection:^(NSMutableArray *responseObj)
+    
+    InfoObject *infObj=[[InfoObject alloc] init];
+    [infObj fetchData:^(NSMutableArray *responseObj)
     {
-        [self setTitle:content.strTitle];
+        [self setTitle:infObj.strHeadingTitle];
         [lblLoadeing removeFromSuperview];
         [self createTableView];
         arrRowData=[responseObj copy];

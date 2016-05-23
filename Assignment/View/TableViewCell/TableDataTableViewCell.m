@@ -7,7 +7,6 @@
 //
 
 #import "TableDataTableViewCell.h"
-#import "Content.h"
 #define noImageName @"noimage.png" // default image
 
 @interface TableDataTableViewCell()
@@ -77,22 +76,23 @@
         dispatch_async(queue, ^{
             
             
-            Content *content=[[Content alloc] init];
-            [content getImge:[NSString stringWithFormat:@"%@",currentInfo.urlImage] withData:^(id responseData) {
+            
+            InfoObject *infObj=[[InfoObject alloc] init];
+            [infObj fetchImage:[NSString stringWithFormat:@"%@",currentInfo.urlImage] withData:^(id responseData) {
                 
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                
-                                    if (responseData && responseData!=nil)   // image url needs data
-                                    {
-                                        _imgImage.image = responseData;
-                                        [_activityIndicator stopAnimating];
-                                        _activityIndicator.hidden=YES;
-                                    }
-                                  
-                                });
-
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    if (responseData && responseData!=nil)   // image url needs data
+                    {
+                        _imgImage.image = responseData;
+                        [_activityIndicator stopAnimating];
+                        _activityIndicator.hidden=YES;
+                    }
+                    
+                });
             }];
             
+                    
            
             
         });

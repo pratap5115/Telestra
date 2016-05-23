@@ -14,5 +14,10 @@
 @property(nonatomic,strong) NSString *strDescription;
 @property(nonatomic,strong) NSString *urlImage;
 
+@property(nonatomic,strong)NSString *strHeadingTitle;
+
+-(void)fetchData:(void (^)(NSMutableArray * responseObj))completionBlock;
+-(void)fetchImage:(NSString *)strUrl withData:(void (^)(id responseData))completionBlock;
+
 
 @end
