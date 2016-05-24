@@ -7,14 +7,10 @@
 //
 
 #import "ViewController.h"
+#import "Constants.h"
 #import "InfoObject.h"
 #import "TableDataTableViewCell.h"
 
-#define loadingFont [UIFont fontWithName:@"HelveticaNeue-Thin" size:22.0]
-#define cellIdentifier @"Cell"
-#define cellMinimumHeight 100.0
-#define descriptionTextMaximumWidth   200.0
-#define descriptionTextMaximumHeight  300.0
 
 
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -26,6 +22,7 @@
 
 -(void)createTableView;
 -(void)refreshData:(id)sender;
+-(CGSize)getSizeForText:(NSString *)text;
 
 @end
 
@@ -41,17 +38,27 @@
     lblLoadeing=[[UILabel alloc] initWithFrame:CGRectMake(20, (self.view.frame.size.height/2)-15.0, self.view.frame.size.width-40.0, 30.0)];    // Data Loading
     [self.view addSubview:lblLoadeing];
     lblLoadeing.textAlignment=NSTextAlignmentCenter;
-    [lblLoadeing setText:@"Loading ..... "];
-    lblLoadeing.font= loadingFont;
+    [lblLoadeing setText:loadingLabelText];
+    lblLoadeing.font= loadingLabelFont;
     
     
     InfoObject *infObj=[[InfoObject alloc] init];
     [infObj fetchData:^(NSMutableArray *responseObj)
     {
-        [self setTitle:infObj.strHeadingTitle];
-        [lblLoadeing removeFromSuperview];
-        [self createTableView];
-        arrRowData=[responseObj copy];
+        if ([responseObj count]>0)
+        {
+
+            dispatch_async(dispatch_get_main_queue(), ^{    // updating UI
+                
+                [self setTitle:infObj.strHeadingTitle];
+                [lblLoadeing removeFromSuperview];
+                [self createTableView];
+                arrRowData=[responseObj copy];
+
+            });
+            
+
+        }
 
     }];
     
@@ -77,11 +84,7 @@
     tblView.delegate=self;
     [self.view addSubview:tblView];
     
-    UINib *nib = [UINib nibWithNibName:@"TableDataTableViewCell" bundle:nil];
-    [tblView registerNib:nib forCellReuseIdentifier:cellIdentifier];
-
-  
-        arrRowData=[[NSArray alloc] init];    // Tableview Data
+    arrRowData=[[NSArray alloc] init];    // Tableview Data
 
 }
 
@@ -93,30 +96,30 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    
     return [arrRowData count];
 }
 
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Create a reusable cell
-    
-    
-    TableDataTableViewCell *dataCell = (TableDataTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    [dataCell updateData:(InfoObject *)[arrRowData objectAtIndex:indexPath.row]];
-    [dataCell.contentView bringSubviewToFront:dataCell];
 
-    
-    
-    return dataCell;
+    // Create a reusable cell
+    TableDataTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if(!cell) {
+        cell = [[TableDataTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+
+    [cell updateData:(InfoObject *)[arrRowData objectAtIndex:indexPath.row]];
+
+    return cell;
 }
 
 
+#pragma mark - TableView Delegate Implementation
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     TableDataTableViewCell *cell = [[TableDataTableViewCell alloc] init];
     
     InfoObject *infObj=(InfoObject *)[arrRowData objectAtIndex:indexPath.row];
@@ -133,27 +136,26 @@
         contentHeight+=5.0;
 
     }
-   
     
     [cell setNeedsLayout];
     [cell layoutIfNeeded];
-    
    
+    
     return contentHeight;
 }
 
 
+#pragma mark - Helper Methods
 
 
--(CGSize)getSizeForText:(NSString *)text     // get dynamic text width and height
+-(CGSize)getSizeForText:(NSString *)text      // get dynamic text width and height
 {
-
     
     CGSize constraintSize;
     constraintSize.height = descriptionTextMaximumHeight;
     constraintSize.width = descriptionTextMaximumWidth;
     NSDictionary *attributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          [UIFont fontWithName:@"TrebuchetMS-Bold" size:17.0], NSFontAttributeName,
+                                          [UIFont fontWithName:kHelveticaNeue size:kDescriptionText], NSFontAttributeName,
                                           nil];
     
     CGRect frame = [text boundingRectWithSize:constraintSize

@@ -1,5 +1,5 @@
 //
-//  Content.h
+//  ServiceManager.h
 //  Assignment
 //
 //  Created by Pratap on 20/05/16.
@@ -8,13 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Content : NSObject
-{
-
-}
+@interface ServiceManager : NSObject
 
 
 -(void)getNetworkConnection:(void (^)(NSMutableArray * responseObj))completionBlock;
--(void)getRowImge:(NSString *)strUrl withData:(void (^)(id responseData))completionBlock;
+-(void)getRowImge:(NSString *)strUrl withData:(void (^)(NSData *responseData))completionBlock;
 
 @end

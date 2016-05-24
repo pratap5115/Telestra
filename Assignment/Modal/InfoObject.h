@@ -17,7 +17,7 @@
 @property(nonatomic,strong)NSString *strHeadingTitle;
 
 -(void)fetchData:(void (^)(NSMutableArray * responseObj))completionBlock;
--(void)fetchImage:(NSString *)strUrl withData:(void (^)(id responseData))completionBlock;
+-(void)fetchImage:(NSString *)strUrl withData:(void (^)(NSData *responseData))completionBlock;
 
 
 @end

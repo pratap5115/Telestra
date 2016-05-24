@@ -7,18 +7,10 @@
 //
 
 #import "InfoObject.h"
-#import "Content.h"
-
-#define rows           @"rows"
-#define FileTitle      @"title"
-#define title          @"title"
-#define description    @"description"
-#define image          @"imageHref"
+#import "ServiceManager.h"
+#import "Constants.h"
 
 @interface InfoObject()
-{
-
-}
 
 @property(nonatomic,strong) NSMutableArray *arrInfoObj;
 
@@ -44,8 +36,8 @@
         _arrInfoObj=nil;
     }
     
-    Content *content=[[Content alloc] init];
-    [content getNetworkConnection:^(NSMutableArray *responseObject)
+    ServiceManager *objService=[[ServiceManager alloc] init];
+    [objService getNetworkConnection:^(NSMutableArray *responseObject)
      {
          
                  InfoObject *infObj;
@@ -70,12 +62,14 @@
 
 }
 
-- (void)fetchImage:(NSString *)strUrl withData:(void (^)(id responseData))completionBlock
+- (void)fetchImage:(NSString *)strUrl withData:(void (^)(NSData *responseData))completionBlock
 {
-     Content *content=[[Content alloc] init];
-    [content getRowImge:strUrl withData:^(id responseData) {
-        completionBlock(responseData);
+     ServiceManager *objService=[[ServiceManager alloc] init];
+    [objService getRowImge:strUrl withData:^(NSData *responseData) {
+         completionBlock(responseData);
+        
     }];
+    
 
     
 }

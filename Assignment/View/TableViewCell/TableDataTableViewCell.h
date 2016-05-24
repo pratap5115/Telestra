@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <UIKit/UIView.h>
 #import "InfoObject.h"
 
 @interface TableDataTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UILabel *lblDescription;
+@property (strong, nonatomic)UILabel *lblDescription;
 -(void)updateData:(InfoObject *)infObj;
 @end
