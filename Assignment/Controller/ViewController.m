@@ -48,7 +48,12 @@
         if ([responseObj count]>0)
         {
 
-            dispatch_async(dispatch_get_main_queue(), ^{    // updating UI
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                // Why are we dispatching this to the main queue?
+                // Because InfoObject Service Calling in backing layer for UITableView
+                // can only be manipulated on the main thread.
+              
                 
                 [self setTitle:infObj.strHeadingTitle];
                 [lblLoadeing removeFromSuperview];
