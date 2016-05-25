@@ -7,11 +7,14 @@
 //
 
 
+#pragma mark - Service URL
+
+#define API_BASE_URL @"https://dl.dropboxusercontent.com/u/746330/facts.json"
+
 
 #pragma mark - Font Family Name & FontSize
 
 #define kHelveticaNeue                                  @"HelveticaNeue"
-
 #define kTitleTextFont                                 15.0f
 #define kDescriptionTextFont                           12.0f
 #define loadingLabelFont [UIFont fontWithName:@"HelveticaNeue-Thin" size:22.0]
@@ -22,18 +25,12 @@
 #define cellMinimumHeight 100.0
 #define descriptionTextMaximumWidth   200.0
 #define descriptionTextMaximumHeight  300.0
-
-
 #define noImageName @"noimage.png" // default image
-
-
 #define loadingLabelText  @"Loading ....."
-
-#pragma mark - Service URL
-
-#define API_BASE_URL @"https://dl.dropboxusercontent.com/u/746330/facts.json"
-
-
+#define kNetworkAlertTitle  @"Network Error!"
+#define kNetworkMessageTitle  @"Network Error!"
+#define kAlertOKButtonTitle  @"OK"
+#define kAlertCancelButtonTitle  @"Cancel"
 
 #pragma mark - Data Attributes
 

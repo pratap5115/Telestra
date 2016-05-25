@@ -10,7 +10,7 @@
 #import "Constants.h"
 #import "InfoObject.h"
 #import "TableDataTableViewCell.h"
-
+#import "Reachability.h"
 
 
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -18,11 +18,14 @@
     UITableView  *tblView;
     NSArray *arrRowData;
     UILabel *lblLoadeing;
+    BOOL isCommunicationFirstTime;   // check first time Data Loaded on Tableview or Not
 }
 
 -(void)createTableView;
 -(void)refreshData:(id)sender;
 -(CGSize)getSizeForText:(NSString *)text;
+-(BOOL)isNetworkAvailable;
+-(void)serviceDataWithTableviewCommunication;
 
 @end
 
@@ -41,56 +44,51 @@
     [lblLoadeing setText:loadingLabelText];
     lblLoadeing.font= loadingLabelFont;
     
-    
-    InfoObject *infObj=[[InfoObject alloc] init];
-    [infObj fetchData:^(NSMutableArray *responseObj)
-    {
-        if ([responseObj count]>0)
-        {
-
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                // Why are we dispatching this to the main queue?
-                // Because InfoObject Service Calling in backing layer for UITableView
-                // can only be manipulated on the main thread.
-              
-                
-                [self setTitle:infObj.strHeadingTitle];
-                [lblLoadeing removeFromSuperview];
-                [self createTableView];
-                arrRowData=[responseObj copy];
-
-            });
-            
-
-        }
-
-    }];
-    
-
+    [self serviceDataWithTableviewCommunication];
+    isCommunicationFirstTime=YES;
 }
-
-
 
 /*!
- *   Refresh Tableview Data
- *
+ *  Checking Network
+ *  Data Available Creating and data loading on Tableview
  */
-
--(void)refreshData:(id)sender
+-(void)serviceDataWithTableviewCommunication
 {
-    if ([arrRowData count] >0)
+    if ([self isNetworkAvailable])
     {
-        [tblView reloadData];
+        InfoObject *infObj=[[InfoObject alloc] init];
+        [infObj fetchData:^(NSMutableArray *responseObj)
+         {
+             if ([responseObj count]>0)
+             {
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     
+                     // Why are we dispatching this to the main queue?
+                     // Because InfoObject Service Calling in backing layer for UITableView
+                     // can only be manipulated on the main thread.
+                     
+                     isCommunicationFirstTime=NO;
+                     
+                     [self setTitle:infObj.strHeadingTitle];
+                     [lblLoadeing removeFromSuperview];
+                     [self createTableView];
+                     arrRowData=[responseObj copy];
+                     
+                 });
+             }
+         }];
     }
- 
+    else
+    {
+        [self showAlertTitle:kNetworkAlertTitle WithMessage:kNetworkMessageTitle];
+    }
 }
+
 
 /*! 
  *  Creating Tableview
  *  initializing Object for Tableview data
  */
-
 -(void)createTableView
 {
     tblView=[[UITableView alloc]initWithFrame:CGRectMake(0, 66.0, self.view.frame.size.width, self.view.frame.size.height-66.0)];
@@ -103,22 +101,33 @@
 
 }
 
-
-
-
+/*!
+ *   Refresh Tableview Data
+ *   Note : Due to Network issues at least one time table list not loaded again it will hit service URL
+ *   Refreshing Data when Already Table Data loaded
+ */
+-(void)refreshData:(id)sender
+{
+    if (isCommunicationFirstTime)
+    {
+        [self serviceDataWithTableviewCommunication];
+    }
+    else
+    {
+        if ([arrRowData count] >0)
+        {
+            [tblView reloadData];
+        }
+    }
+}
 
 #pragma mark - TableView DataSource Implementation
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     return [arrRowData count];
 }
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-
- 
 /*!
  * Create a reusable Tableview cell
  * For  The result
@@ -136,9 +145,7 @@
 
 
 #pragma mark - TableView Delegate Implementation
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     
 /*!
@@ -176,14 +183,11 @@
 
 
 #pragma mark - Helper Methods
-
 /*!
  *  Calculating Dynamic Height for Description Lable
  *  Returns lblDescription label Sizes (Width,Height )
  *
  */
-
-
 
 -(CGSize)getSizeForText:(NSString *)text      // get dynamic text width and height
 {
@@ -206,8 +210,73 @@
     
 }
 
+/*!
+ *  Check Network Connection
+ *  Returns Boolean flag
+ *
+ */
 
+-(BOOL)isNetworkAvailable
+{
+    if ([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]==NotReachable)
+    {
+        return NO;  //connection unavailable
+    }
+    else
+    {
+       return YES;  //connection available
+    }
+    
+}
 
+/*!
+*  Show Alert Message
+*  @param1 alertTitle
+*  @param2 strMessage
+*
+*/
+-(void)showAlertTitle:(NSString *)alertTitle WithMessage:(NSString *)strMessage
+{
+    if ([UIAlertController class])  //  >= IOS 8 and Above
+    {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        // Why are we dispatching this to the main queue?
+        // Note: Error Happening from popup view controller show the alert controller directly from parent view
+
+            
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alertTitle message:strMessage preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* ok = [UIAlertAction actionWithTitle:kAlertOKButtonTitle style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:ok];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    });
+        
+    }
+    else  // below ios8  < IOS 8
+    {
+        
+        UIAlertView * alert = [[UIAlertView alloc]initWithTitle:alertTitle message:strMessage delegate:nil cancelButtonTitle:kAlertOKButtonTitle otherButtonTitles:nil, nil];
+        [alert show];
+        
+    }
+    
+}
+
+#pragma mark - deallocating
+-(void)dealloc
+{
+    [tblView removeFromSuperview];
+    tblView=nil;
+    
+    arrRowData=nil;
+    
+    [lblLoadeing removeFromSuperview];
+    lblLoadeing=nil;
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
