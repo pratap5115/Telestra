@@ -28,7 +28,7 @@
 #define noImageName @"noimage.png" // default image
 #define loadingLabelText  @"Loading ....."
 #define kNetworkAlertTitle  @"Network Error!"
-#define kNetworkMessageTitle @"Internet Access Not Available"
+#define kNetworkMessageTitle @"Internet Access Is Not Available Now"
 #define kAlertOKButtonTitle  @"OK"
 #define kAlertCancelButtonTitle  @"Cancel"
 
