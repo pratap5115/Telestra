@@ -71,6 +71,12 @@
 }
 
 
+
+/*!
+ *   Refresh Tableview Data
+ *
+ */
+
 -(void)refreshData:(id)sender
 {
     if ([arrRowData count] >0)
@@ -80,6 +86,10 @@
  
 }
 
+/*! 
+ *  Creating Tableview
+ *  initializing Object for Tableview data
+ */
 
 -(void)createTableView
 {
@@ -108,7 +118,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    // Create a reusable cell
+ 
+/*!
+ * Create a reusable Tableview cell
+ * For  The result
+ */
+    
     TableDataTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if(!cell) {
         cell = [[TableDataTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
@@ -125,11 +140,21 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    
+/*!
+ *  Calculating Dynamic Height of Cell
+ *  InfoObject is Custom Data Object for UITableview Cell
+ *  infObj.strDescription is row text
+ */
+    
+    
     TableDataTableViewCell *cell = [[TableDataTableViewCell alloc] init];
     
     InfoObject *infObj=(InfoObject *)[arrRowData objectAtIndex:indexPath.row];
     cell.lblDescription.text=[NSString stringWithFormat:@"%@",infObj.strDescription];
     
+    
+  
    CGFloat contentHeight = [self getSizeForText:[NSString stringWithFormat:@"%@",infObj.strDescription]].height;
     
     if (contentHeight <=cellMinimumHeight)    // row height is minimum 100
@@ -151,6 +176,13 @@
 
 
 #pragma mark - Helper Methods
+
+/*!
+ *  Calculating Dynamic Height for Description Lable
+ *  Returns lblDescription label Sizes (Width,Height )
+ *
+ */
+
 
 
 -(CGSize)getSizeForText:(NSString *)text      // get dynamic text width and height
