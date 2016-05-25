@@ -29,8 +29,13 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
-                
+        
+        
+/*!
+* Initialization code
+* Row image, titleLabel, description Label ,Activity indicator
+*/
+        
         self.userInteractionEnabled=NO;
         
         imgView=[[UIImageView alloc] initWithFrame:CGRectMake(10,10,80,80)];
@@ -70,10 +75,20 @@
     return self;
 }
 
+/*! 
+ *  Adding Constraints for Table Cell items
+ *
+ */
+
 -(void)addingConstraints
 {
 
-// imageView Constraints
+    
+/*!
+ *  Adding Constraints for Table Cell imageview
+ *  imageview toplayout constraint from superview
+ *
+ */
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imgView
                                                                  attribute:NSLayoutAttributeTop
@@ -81,8 +96,12 @@
                                                                     toItem:self.contentView
                                                                  attribute:NSLayoutAttributeTop
                                                                 multiplier:1.0
-                                                                  constant:2.0]];
-    
+                                                              constant:2.0]];
+
+/*!
+ *  imageview Leading constraint from superview
+ */
+
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imgView
                                                                  attribute:NSLayoutAttributeLeading
                                                                  relatedBy:NSLayoutRelationEqual
@@ -90,7 +109,11 @@
                                                                  attribute:NSLayoutAttributeLeading
                                                                 multiplier:1.0
                                                                   constant:2.0]];
-    
+
+/*!
+ *  imageview Width constraint
+ */
+
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imgView
                                                                  attribute:NSLayoutAttributeWidth
                                                                  relatedBy:NSLayoutRelationEqual
@@ -99,6 +122,11 @@
                                                                 multiplier:1.0
                                                                   constant:80.0]];
     
+/*!
+ *  imageview Height constraint
+ */
+    
+    
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imgView
                                                                  attribute:NSLayoutAttributeHeight
                                                                  relatedBy:NSLayoutRelationEqual
@@ -106,10 +134,13 @@
                                                                  attribute:NSLayoutAttributeNotAnAttribute
                                                                 multiplier:1.0
                                                                   constant:80.0]];
-    
-    
-    
-    // Activity Indicator Constraints
+ 
+/*!
+ *  Adding Constraints for Table Cell Activity Indicator
+ *  Activity Indicator Vertically Centering layout constraint with image
+ *
+ */
+
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:activityIndicator
                                                                  attribute:NSLayoutAttributeCenterX
@@ -118,6 +149,11 @@
                                                                  attribute:NSLayoutAttributeCenterX
                                                                 multiplier:1.0
                                                                   constant:0.0]];
+
+/*!
+ *  Activity Indicator Horizontally Centering layout constraint with image
+ */
+    
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:activityIndicator
                                                                  attribute:NSLayoutAttributeCenterY
                                                                  relatedBy:NSLayoutRelationEqual
@@ -126,8 +162,14 @@
                                                                 multiplier:1.0
                                                                   constant:0.0]];
     
-    
-    // Title Label Constraints
+
+/*!
+ *  Adding Constraints for Table Cell Title Label
+ *  Title Label  top layout constraint with contentview
+ *
+ */
+
+
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:lblTitle
                                                                  attribute:NSLayoutAttributeTop
@@ -136,6 +178,10 @@
                                                                  attribute:NSLayoutAttributeTop
                                                                 multiplier:1.0
                                                                   constant:2.0]];
+    
+/*!
+ *  Title Label  leading layout constraint with imageview
+ */
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:lblTitle
                                                                  attribute:NSLayoutAttributeLeading
@@ -145,6 +191,10 @@
                                                                 multiplier:1.0
                                                                   constant:8.0]];
     
+/*!
+ *    Title Label trailing layout constraint with contentview
+ */
+
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView
                                                                  attribute:NSLayoutAttributeTrailing
                                                                  relatedBy:NSLayoutRelationEqual
@@ -153,6 +203,10 @@
                                                                 multiplier:1.0
                                                                   constant:1.0]];
     
+/*!
+ *    Title Label bottom layout constraint with description label
+ */
+
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_lblDescription
                                                                  attribute:NSLayoutAttributeTop
@@ -162,6 +216,11 @@
                                                                 multiplier:1.0
                                                                   constant:1.0]];
    
+/*!
+ *    Title Label height constraint with 20.0 pts
+ */
+
+    
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:lblTitle
                                                                  attribute:NSLayoutAttributeHeight
                                                                  relatedBy:NSLayoutRelationEqual
@@ -171,12 +230,12 @@
                                                                   constant:20.0]];
     
     
-    
-    
-    
-    
-    
-    // Description Label Constraints
+/*!
+ *  Adding Constraints for Table Cell Description Label
+ *  Description Label  leading layout constraint with imageview
+ *
+ */
+
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_lblDescription
                                                                  attribute:NSLayoutAttributeLeading
@@ -185,7 +244,12 @@
                                                                  attribute:NSLayoutAttributeTrailing
                                                                 multiplier:1.0
                                                                   constant:8.0]];
+ 
+/*!
+ *  Description Label  Bottom layout constraint with contentview
+ */
     
+
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView
                                                                  attribute:NSLayoutAttributeBottom
                                                                  relatedBy:NSLayoutRelationEqual
@@ -194,6 +258,9 @@
                                                                 multiplier:1.0
                                                                   constant:1.0]];
     
+/*!
+ *  Description Label  Trailing layout constraint with contentview
+ */
     
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView
                                                           attribute:NSLayoutAttributeTrailing
@@ -224,6 +291,12 @@
     
 }
 
+
+/**
+passing infObj to Table View Cell
+@param infoObj   
+Note: UI updating UItableview Cell  with infObj
+*/
 
 
 -(void)updateData:(InfoObject *)infObj
