@@ -12,6 +12,11 @@
 @implementation ServiceManager
 
 
+/**
+ Calling this Service Method for getting service data
+ @returns JSON data
+ */
+
 -(void)getNetworkConnection:(void (^)(NSMutableArray * responseObj))completionBlock
 {
     @try {
@@ -38,6 +43,13 @@
     
 }
 
+
+
+/**
+Calling this Service Method for getting image data
+@param image URL
+@returns image data
+*/
 
 -(void)getRowImge:(NSString *)strUrl withData:(void (^)(NSData *responseData))completionBlock   // for image loading
 {

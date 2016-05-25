@@ -24,6 +24,11 @@
 @synthesize  strDescription;
 @synthesize  urlImage;
 
+/**
+ Fetching Data from Service Class
+ @returns array of custom InfoObject
+ */
+
 -(void)fetchData:(void (^)(NSMutableArray * responseObj))completionBlock
 {
     if (_arrInfoObj == nil || [_arrInfoObj count] == 0)
@@ -61,6 +66,14 @@
     
 
 }
+
+/**
+ Fetching image Data from Service Class
+ @param image URL
+ @returns image data
+ */
+
+
 
 - (void)fetchImage:(NSString *)strUrl withData:(void (^)(NSData *responseData))completionBlock
 {
