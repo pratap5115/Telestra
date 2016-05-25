@@ -192,7 +192,7 @@
     constraintSize.height = descriptionTextMaximumHeight;
     constraintSize.width = descriptionTextMaximumWidth;
     NSDictionary *attributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          [UIFont fontWithName:kHelveticaNeue size:kDescriptionText], NSFontAttributeName,
+                                          [UIFont fontWithName:kHelveticaNeue size:kDescriptionTextFont], NSFontAttributeName,
                                           nil];
     
     CGRect frame = [text boundingRectWithSize:constraintSize

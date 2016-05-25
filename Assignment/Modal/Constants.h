@@ -12,8 +12,8 @@
 
 #define kHelveticaNeue                                  @"HelveticaNeue"
 
-#define kTitleText                                 15.0f
-#define kDescriptionText                           15.0f
+#define kTitleTextFont                                 15.0f
+#define kDescriptionTextFont                           12.0f
 #define loadingLabelFont [UIFont fontWithName:@"HelveticaNeue-Thin" size:22.0]
 
 #pragma mark - Tableview Cell

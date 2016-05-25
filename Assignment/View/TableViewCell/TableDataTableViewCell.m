@@ -51,7 +51,7 @@
         
         lblTitle=[[UILabel alloc] initWithFrame:CGRectMake(imgView.frame.origin.x+imgView.frame.size.width+10.0, 10, self.contentView.frame.size.width-(imgView.frame.size.width+imgView.frame.origin.x+10.0), 21)];
         lblTitle.textAlignment=NSTextAlignmentLeft;
-        lblTitle.font = [UIFont fontWithName:kHelveticaNeue size:kDescriptionText];
+        lblTitle.font = [UIFont fontWithName:kHelveticaNeue size:kTitleTextFont];
         [self.contentView addSubview:lblTitle];
         lblTitle.translatesAutoresizingMaskIntoConstraints = NO;
 
@@ -59,7 +59,7 @@
         
         _lblDescription=[[UILabel alloc] initWithFrame:CGRectMake(lblTitle.frame.origin.x, lblTitle.frame.origin.y+lblTitle.frame.size.height+10.0, lblTitle.frame.size.width, 21)];
         _lblDescription.textAlignment=NSTextAlignmentLeft;
-        _lblDescription.font = [UIFont fontWithName:kHelveticaNeue size:kDescriptionText];
+        _lblDescription.font = [UIFont fontWithName:kHelveticaNeue size:kDescriptionTextFont];
 
         [self.contentView addSubview:_lblDescription];
         
