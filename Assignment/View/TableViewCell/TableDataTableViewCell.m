@@ -86,17 +86,9 @@
     
 /*!
  *  Adding Constraints for Table Cell imageview
- *  imageview toplayout constraint from superview
  *
  */
     
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imgView
-                                                                 attribute:NSLayoutAttributeTop
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeTop
-                                                                multiplier:1.0
-                                                              constant:2.0]];
 
 /*!
  *  imageview Leading constraint from superview
@@ -106,22 +98,24 @@
                                                                  attribute:NSLayoutAttributeLeading
                                                                  relatedBy:NSLayoutRelationEqual
                                                                     toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeLeading
+                                                                 attribute:NSLayoutAttributeLeadingMargin
                                                                 multiplier:1.0
                                                                   constant:2.0]];
-
-/*!
- *  imageview Width constraint
- */
-
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imgView
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:nil
-                                                                 attribute:NSLayoutAttributeNotAnAttribute
-                                                                multiplier:1.0
-                                                                  constant:80.0]];
     
+
+    
+/*!
+ *  imageview Vertical Centre constraint with superview
+ */
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imgView
+                                                                 attribute:NSLayoutAttributeCenterY
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeCenterY
+                                                                multiplier:1.0
+                                                                  constant:0.0]];
+
 /*!
  *  imageview Height constraint
  */
@@ -134,7 +128,20 @@
                                                                  attribute:NSLayoutAttributeNotAnAttribute
                                                                 multiplier:1.0
                                                                   constant:80.0]];
- 
+
+/*!
+ *  imageview Width constraint
+ */
+    
+    
+    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:imgView
+                                                                 attribute:NSLayoutAttributeWidth
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:nil
+                                                                 attribute:NSLayoutAttributeNotAnAttribute
+                                                                multiplier:1.0
+                                                                  constant:80.0]];
+    
 /*!
  *  Adding Constraints for Table Cell Activity Indicator
  *  Activity Indicator Vertically Centering layout constraint with image

@@ -64,7 +64,28 @@ Calling this Service Method for getting image data
         NSURLSessionDownloadTask *downloadImageTask = [[NSURLSession sharedSession]
                                                        downloadTaskWithURL:[NSURL URLWithString:imageUrl] completionHandler:^(NSURL *strDownloadImageURL, NSURLResponse *response, NSError *error) {
 
-                                                           completionBlock([NSData dataWithContentsOfURL:strDownloadImageURL]);
+                                                           NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+
+                                                           NSData *imgData;
+                                                           imgData=nil;
+
+                                                           if (statusCode == 200)   // OK - response for successful HTTP requests
+                                                           {
+                                                               if (error == nil)
+                                                               {
+                                                                   imgData =[NSData dataWithContentsOfURL:strDownloadImageURL];
+                                                               }
+
+                                                           }
+                                                           else
+                                                           {
+                                                               // Bad Response
+                                                               // NSLog(@"Error :%@",error);
+                                                           }
+                                                           
+                                                           
+                                                           completionBlock(imgData);
+
                                                        }];
         
         [downloadImageTask resume];
