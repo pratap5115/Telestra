@@ -50,12 +50,14 @@
                  _strHeadingTitle =[responseObject valueForKey:FileTitle];
                  for (NSDictionary *dictRow in [responseObject valueForKey:rows])
                  {
-                     infObj=[[InfoObject alloc] init];
-                     infObj.strTitle= ([dictRow valueForKey:title] == [NSNull null])?@"":[dictRow valueForKey:title];
-                     infObj.strDescription=([dictRow valueForKey:description] == [NSNull null])?@"":[dictRow valueForKey:description];
-                     infObj.urlImage=[dictRow valueForKey:image];
-                     [_arrInfoObj addObject:infObj];
-                     
+                     if (([dictRow valueForKey:title] != (id)[NSNull null]) || ([dictRow valueForKey:description] != (id)[NSNull null]) || ([dictRow valueForKey:image] != (id)[NSNull null])  )  // skipping empty record
+                     {
+                         infObj=[[InfoObject alloc] init];
+                         infObj.strTitle= ([dictRow valueForKey:title] == [NSNull null])?@"":[dictRow valueForKey:title];
+                         infObj.strDescription=([dictRow valueForKey:description] == [NSNull null])?@"":[dictRow valueForKey:description];
+                         infObj.urlImage=[dictRow valueForKey:image];
+                         [_arrInfoObj addObject:infObj];
+                     }
                  }
                  completionBlock(_arrInfoObj);
 
